@@ -1,10 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
+import Message from './Message';
 
 function App() {
   return (
     <div className="App">
-      My project
+      <h1>My project</h1>
+      <Message text="Первое сообщение" />
     </div>
   );
 }

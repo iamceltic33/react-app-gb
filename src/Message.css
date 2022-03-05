@@ -6,3 +6,9 @@
     padding: 0px 20px;
     margin: 10px 50px;
 }
+.text {
+    white-space: pre-line;
+}
+.author {
+    font-weight: bold;
+}

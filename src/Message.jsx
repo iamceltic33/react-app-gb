@@ -1,7 +1,6 @@
 import './Message.css'
 
 function Message(props) {
-    console.log(props.author);
     return (
         <div className="message">
             <p className='author'>От: {props.author}</p>

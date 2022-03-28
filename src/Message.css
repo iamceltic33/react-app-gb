@@ -1,0 +1,14 @@
+.message {
+    text-align: left;
+    border-radius: 20px;
+    background: yellowgreen;
+    border: 3px solid black;
+    padding: 0px 20px;
+    margin: 10px 50px;
+}
+.text {
+    white-space: pre-line;
+}
+.author {
+    font-weight: bold;
+}

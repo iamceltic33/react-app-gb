@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+
+.send-form {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 500px;
+  gap: 10px;  
+}
+
+.send-form input, .send-form textarea {
+  font-size: 24px;
+}

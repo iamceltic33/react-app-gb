@@ -1,87 +1,50 @@
 import './App.css';
-import Message from './Message';
-import { useState, useEffect, useRef } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import { nextId } from './utils';
+import { Route, Routes } from 'react-router-dom';
 
-let newAuthor = '', newText = '';
-let chatArray = [
-  { id: 'c0001', name: 'Chat 1' },
-  { id: 'c0002', name: 'Chat 2' },
-  { id: 'c0003', name: 'Chat 3' },
-  { id: 'c0004', name: 'Chat 4' }
-]
+import Profile from './Profile';
+import Chats from './Chats';
+import Home from './Home';
+import Layout from './Layout';
+import { useState } from 'react';
+import ChatsList from './ChatsList';
+
+let chatArray = {
+  [nextId()]: { name: 'Chat 1', messages: [{ author: 'robot', text: 'welcome to Chat 1' }] },
+  [nextId()]: { name: 'Chat 2', messages: [{ author: 'robot', text: 'welcome to Chat 2' }] },
+  [nextId()]: { name: 'Chat 3', messages: [{ author: 'robot', text: 'welcome to Chat 3' }] },
+  [nextId()]: { name: 'Chat 4', messages: [{ author: 'robot', text: 'welcome to Chat 4' }] }
+}
+
 function App() {
-  const [state, setState] = useState([]);
-  useEffect(messageCallback, [state])
-  let textFieldRef = useRef(null);
-  //Функции
-  function messageCallback() {
-    if (state.length > 0 && state[state.length - 1].author !== 'robot') {
-      setTimeout(() => {
-        setState(
-          (prev) => {
-            let newState = [...prev]
-            newState.push({ author: 'robot', text: 'Спасибо за ваше сообщение!' })
-            return newState
-          }
-        )
-      }, 1000)
-    }
+  let [chats, setChats] = useState(chatArray);
+
+  const updateChats = (message, chatId) => {
+    const newChats = Object.assign({}, chats)
+    newChats[chatId].messages.push(message);
+    setChats(newChats);
   }
 
-  function addMessage(event) {
-    event.preventDefault();
-    setState(prev => {
-      let newState = [...prev]
-      newState.push({ author: newAuthor, text: newText })
-      return newState;
-    });
-    textFieldRef?.current.focus();
+  const createChat = (chatName) => {
+    const newChats = Object.assign({}, chats);
+    let id = nextId();
+    newChats[id] = {
+      name: chatName,
+      messages: [{ author: 'robot', text: `welcome to ${chatName}` }]
+    }
+    setChats(newChats);
+    return id;
   }
-  // разметка
   return (
     <div className="App">
-      <h1>My project</h1>
-      <Grid container>
-        <Grid item xs={2}>
-          <List sx={{ fontSize: 20 }}>
-            {chatArray.map((value) => {
-              return <ListItem key={value.id}>
-                <ListItemText>
-                  {value.name}
-                </ListItemText>
-              </ListItem>
-            })}
-          </List>
-        </Grid>
-        <Grid item xs={10}>
-          {state.map((value, index) => {
-            return (
-              <Message author={value.author} text={value.text} key={index} />
-            )
-          })}
-        </Grid>
-      </Grid>
-      <form className='send-form' action='#' onSubmit={addMessage} style={{
-        marginInline: 'auto'
-      }}>
-
-        <TextField id='name' variant='outlined' label='имя' inputRef={textFieldRef} autoFocus
-          onChange={(event) => {
-            newAuthor = event.target.value;
-          }}
-        ></TextField>
-
-        <TextField id='message' variant='outlined' label='сообщение' multiline={true} rows='5' onChange={(event) => {
-          newText = event.target.value;
-        }}></TextField>
-        <Button variant="contained" type='submit'>Отправить</Button>
-      </form>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index exact element={<Home chatArray={chats} />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/chats" exact element={<ChatsList chatArray={chats} createChat={createChat} createAvailable />} />
+          <Route path="/chats/:chatId" element={<Chats chatArray={chats} updateChats={updateChats} />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

@@ -1,10 +1,10 @@
 .message {
     text-align: left;
     border-radius: 20px;
-    background: yellowgreen;
-    border: 3px solid black;
-    padding: 0px 20px;
-    margin: 10px 50px;
+    background: #1976d2;
+    padding: 1px 10px;
+    margin: 10px 15px;
+    color: #fff;
 }
 .text {
     white-space: pre-line;

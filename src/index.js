@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { composeWithDevTools } from '@redux-devtools/extension';
 
 const initialState = {
   username: 'Ruslan',
@@ -19,7 +20,7 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 }
-const store = createStore(reducer)
+const store = createStore(reducer, composeWithDevTools())
 
 ReactDOM.render(
   <React.StrictMode>

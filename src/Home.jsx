@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import ChatsList from "./ChatsList";
 
 
-export default function Home({ chatArray }) {
+export default function Home() {
     return <>
         <Container>
             <div className="chat-list">
-                <ChatsList chatArray={chatArray} />
+                <ChatsList />
             </div>
             <div className="profile-info">
                 <Link to="/profile">Ваш профиль</Link>

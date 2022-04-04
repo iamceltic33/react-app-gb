@@ -5,22 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { composeWithDevTools } from '@redux-devtools/extension';
+import { store } from './redux/configureStore';
 
-const initialState = {
-  username: 'Ruslan',
-  active: false
-}
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "changeActive":
-      return { ...state, active: !state.active }
-    default:
-      return state;
-  }
-}
-const store = createStore(reducer, composeWithDevTools())
 
 ReactDOM.render(
   <React.StrictMode>

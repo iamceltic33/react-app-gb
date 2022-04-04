@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux"
 
 export default function Profile() {
-    const profileName = useSelector(state => state.username)
-    const active = useSelector(state => state.active)
+    const profileName = useSelector(state => state.profile.username)
+    const active = useSelector(state => state.profile.active)
     const dispatch = useDispatch();
     return <>
         <p>

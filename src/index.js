@@ -5,19 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store, persistor } from './redux/configureStore';
-import { PersistGate } from 'redux-persist/integration/react';
-import { CircularProgress } from '@mui/material';
+import { store/*, persistor*/ } from './redux/configureStore';
+// import { PersistGate } from 'redux-persist/integration/react';
+// import { CircularProgress } from '@mui/material';
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate persistor={persistor} loading={<CircularProgress />}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </PersistGate>
+      {/* <PersistGate persistor={persistor} loading={<CircularProgress />}> */}
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+      {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

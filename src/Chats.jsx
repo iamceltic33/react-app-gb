@@ -3,8 +3,8 @@ import { useRef } from 'react';
 import { Container, Alert, Button, TextField } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { addMessageWithThunk } from './redux/actions'
-import { addMessageWithSaga } from './redux/actions'
+import { addMessageWithThunk } from './redux/actions'
+// import { addMessageWithSaga } from './redux/actions'
 
 let newAuthor = '', newText = '';
 
@@ -17,7 +17,7 @@ export default function Chats() {
 
     const onFormSubmit = (event) => {
         event.preventDefault();
-        dispatch(addMessageWithSaga(chatId, newAuthor, newText));
+        dispatch(addMessageWithThunk(chatId, newAuthor, newText));
         textFieldRef?.current.focus();
     }
 

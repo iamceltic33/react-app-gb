@@ -2,13 +2,14 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import profileReducer from "./reducer/profileReducer";
 import { composeWithDevTools } from '@redux-devtools/extension';
 import chatsReducer from "./reducer/chatsReducer"
-// import thunk from "redux-thunk";
-import createSagaMiddleware from "@redux-saga/core";
-import mySaga from "./sagas";
+import thunk from "redux-thunk";
+// import createSagaMiddleware from "@redux-saga/core";
+// import mySaga from "./sagas";
 
-import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
+// import storage from "redux-persist/lib/storage";
+// import { persistReducer, persistStore } from "redux-persist";
 
+import apiReducer from './reducer/apiReducer';
 // const middleware = store => next => action => {
 //     if (action.type === "addMessage") {
 //         if (action.payload.author !== "robot") {
@@ -20,22 +21,29 @@ import { persistReducer, persistStore } from "redux-persist";
 //     return next(action)
 // }
 
-const sagaMidlleware = createSagaMiddleware();
+// const sagaMidlleware = createSagaMiddleware();
 
-const persistConfig = {
-    key: 'root',
-    storage
-}
+// const persistConfig = {
+//     key: 'root',
+//     storage
+// }
 
-const rootReducer = combineReducers({
+// const rootReducer = combineReducers({
+//     profile: profileReducer,
+//     chats: chatsReducer,
+//     cats: apiReducer
+// })
+
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const reducer = combineReducers({
     profile: profileReducer,
-    chats: chatsReducer
+    chats: chatsReducer,
+    cats: apiReducer
 })
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+export const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+// export const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
+// export const persistor = persistStore(store);
 
-// export const store = createStore(reducer, composeWithDevTools());
-export const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(sagaMidlleware)));
-export const persistor = persistStore(store);
-
-sagaMidlleware.run(mySaga);
+// sagaMidlleware.run(mySaga);

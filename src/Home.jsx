@@ -12,6 +12,9 @@ export default function Home() {
             <div className="profile-info">
                 <Link to="/profile">Ваш профиль</Link>
             </div>
+            <div className="age-of-empires">
+                <Link to="/cats">Работа с API</Link>
+            </div>
         </Container>
     </>
 }

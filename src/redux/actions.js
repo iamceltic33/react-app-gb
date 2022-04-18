@@ -1,3 +1,5 @@
+import { auth } from "../service";
+
 export const addMessage = (chatId, author, text) => {
     return {
         type: "addMessage",
@@ -109,4 +111,79 @@ export const getImageThunk = (tag) => async (dispatch) => {
     catch (err) {
         dispatch(getImageError(err.message));
     }
+}
+
+export const authorizationCheck = (authorized) => {
+    return {
+        type: "authorizationCheck",
+        payload: authorized
+    }
+}
+
+export const signup = () => {
+    return {
+        type: "signup"
+    }
+}
+export const signupSuccess = (data) => {
+    return {
+        type: "signupSuccess",
+        payload: data
+    }
+}
+export const signupError = (error) => {
+    return {
+        type: "signupError",
+        payload: error
+    }
+}
+export const signupThunk = (email, password) => (dispatch) => {
+    dispatch(signup());
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(({ user }) => {
+            dispatch(signupSuccess(user));
+        })
+        .catch(error => {
+            dispatch(signupError(error.message));
+        })
+}
+
+export const login = () => {
+    return {
+        type: "login"
+    }
+}
+export const loginSuccess = (data) => {
+    return {
+        type: "loginSuccess"
+    }
+}
+export const loginError = (error) => {
+    return {
+        type: "loginError",
+        payload: error
+    }
+}
+
+export const loginThunk = (email, password) => (dispatch) => {
+    dispatch(login());
+    auth.signInWithEmailAndPassword(email, password)
+        .then(({ user }) => {
+            dispatch(loginSuccess(user));
+        })
+        .catch(error => {
+            dispatch(loginError(error.message));
+        })
+}
+
+export const logout = () => {
+    return {
+        type: "logout"
+    }
+}
+export const logoutThunk = () => (dispatch) => {
+    auth.signOut()
+        .then(() => {
+            dispatch(logout())
+        })
 }

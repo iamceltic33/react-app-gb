@@ -1,40 +1,25 @@
 import MessageList from './MessageList';
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Container, Alert, Button, TextField } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMessageWithThunk } from '../redux/actions'
+// import { addMessageWithSaga } from './redux/actions'
 
 let newAuthor = '', newText = '';
 
-export default function Chats({ chatArray, updateChats }) {
+export default function Chats() {
     let { chatId } = useParams();
-    let chat = chatArray[chatId];
+    const chats = useSelector(state => state.chats);
+    const dispatch = useDispatch();
+    let chat = chats[chatId];
     let textFieldRef = useRef(null);
-
-    const addMessage = (author, text) => {
-        setMessageList(prev => {
-            let newState = [...prev]
-            newState.push({ author, text })
-            return newState;
-        });
-        updateChats({ author, text }, chatId);
-    }
-
-    const messageCallback = () => {
-        if (messageList.length > 0 && messageList[messageList.length - 1].author !== 'robot') {
-            setTimeout(() => {
-                addMessage('robot', 'Спасибо за ваше сообщение!')
-            }, 1000)
-        }
-    }
 
     const onFormSubmit = (event) => {
         event.preventDefault();
-        addMessage(newAuthor, newText);
+        dispatch(addMessageWithThunk(chatId, newAuthor, newText));
         textFieldRef?.current.focus();
     }
-
-    const [messageList, setMessageList] = useState(chat ? chat.messages : []);
-    useEffect(messageCallback, [messageList])
 
     if (!chat) {
         return <Container >
@@ -44,7 +29,7 @@ export default function Chats({ chatArray, updateChats }) {
     }
     return <Container id="chat" >
 
-        <MessageList messages={messageList} />
+        <MessageList messages={chat.messages} />
         <form className='send-form' action='#' onSubmit={onFormSubmit} style={{
             display: "flex",
             flexDirection: "column",
